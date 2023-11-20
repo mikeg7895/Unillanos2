@@ -3,10 +3,14 @@ package BaseDatos;
 import java.sql.*;
 
 public abstract class Operaciones<T1> {
-    protected ConexionMysql conexion;
+    private Connection conexion;
 
     public Operaciones() throws SQLException, ClassNotFoundException {
-        this.conexion = new ConexionMysql();
+        this.conexion = Conexion.netMysql();
+    }
+
+    public Connection getConexion(){
+        return this.conexion;
     }
 
     public abstract void insertar(T1 objeto) throws SQLException;

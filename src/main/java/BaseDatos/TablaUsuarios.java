@@ -17,9 +17,9 @@ public class TablaUsuarios extends Operaciones<UsuarioRegistrado> {
     @Override
     public void insertar(UsuarioRegistrado objeto) throws SQLException {
         String sql = "INSERT INTO usuarios (nombre, apellido, correo, contraseña, id_plataforma) VALUES (?, ?, ?, ?, ?)";
-        conexion.conexion.setAutoCommit(false);
+        getConexion().setAutoCommit(false);
 
-        PreparedStatement statement = conexion.conexion.prepareStatement(sql);
+        PreparedStatement statement = getConexion().prepareStatement(sql);
         statement.setString(1, objeto.getUsuario().getNombre());
         statement.setString(2, objeto.getUsuario().getApellido());
         statement.setString(3, objeto.getUsuario().getCorreo());
@@ -27,44 +27,44 @@ public class TablaUsuarios extends Operaciones<UsuarioRegistrado> {
         statement.setInt(5, objeto.getPlataforma().getId());
         statement.executeUpdate();
 
-        conexion.conexion.commit();
+        getConexion().commit();
     }
 
     @Override
     public void actualizar(UsuarioRegistrado objeto, String columna, String valor) throws SQLException {
         String sql = "UPDATE usuarios SET " + columna + " = ? WHERE nombre = ?";
-        conexion.conexion.setAutoCommit(false);
+        getConexion().setAutoCommit(false);
 
-        PreparedStatement statement = conexion.conexion.prepareStatement(sql);
+        PreparedStatement statement = getConexion().prepareStatement(sql);
         statement.setString(1, valor);
         statement.setString(2, objeto.getUsuario().getNombre());
 
         int filas = statement.executeUpdate();
         System.out.println("Filas afectadas: " + filas);
 
-        conexion.conexion.commit();
+        getConexion().commit();
     }
 
     @Override
     public void eliminar(UsuarioRegistrado objeto) throws SQLException {
         String sql = "DELETE FROM usuarios WHERE nombre = ?";
-        conexion.conexion.setAutoCommit(false);
+        getConexion().setAutoCommit(false);
 
-        PreparedStatement statement = conexion.conexion.prepareStatement(sql);
+        PreparedStatement statement = getConexion().prepareStatement(sql);
         statement.setString(1, objeto.getUsuario().getNombre());
 
         int filas = statement.executeUpdate();
         System.out.println("Filas adectadas: " + filas);
 
-        conexion.conexion.commit();
+        getConexion().commit();
     }
 
     public void login(String correo, String contraseña) throws SQLException, NoSuchAlgorithmException {
         contraseña = Encriptar.encriptar(contraseña);
         String sql = "SELECT * FROM usuarios WHERE correo = ? AND contraseña = ?";
-        conexion.conexion.setAutoCommit(false);
+        getConexion().setAutoCommit(false);
 
-        PreparedStatement statement = conexion.conexion.prepareStatement(sql);
+        PreparedStatement statement = getConexion().prepareStatement(sql);
         statement.setString(1, correo);
         statement.setString(2, contraseña);
 
@@ -77,6 +77,6 @@ public class TablaUsuarios extends Operaciones<UsuarioRegistrado> {
             System.out.println("Usuario incorrecto");
         }
 
-        conexion.conexion.commit();
+        getConexion().commit();
     }
 }

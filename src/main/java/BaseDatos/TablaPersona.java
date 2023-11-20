@@ -13,52 +13,52 @@ public class TablaPersona extends Operaciones<Persona>{
     @Override
     public void insertar(Persona objeto) throws SQLException {
         String sql = "INSERT INTO persona (codigo, nombre, edad, profesion) VALUES (?, ?, ?, ?)";
-        conexion.conexion.setAutoCommit(false);
+        getConexion().setAutoCommit(false);
 
-        PreparedStatement statement = conexion.conexion.prepareStatement(sql);
+        PreparedStatement statement = getConexion().prepareStatement(sql);
         statement.setInt(1, objeto.getId());
         statement.setString(2, objeto.getNombre());
         statement.setInt(3, objeto.getEdad());
         statement.setString(4, objeto.getProfesion());
         statement.executeUpdate();
 
-        conexion.conexion.commit();
+        getConexion().commit();
     }
 
     @Override
     public void actualizar(Persona objeto, String columna, String valor) throws SQLException {
         String sql = "UPDATE persona SET " + columna + " = ? WHERE nombre = ?";
-        conexion.conexion.setAutoCommit(false);
+        getConexion().setAutoCommit(false);
 
-        PreparedStatement statement = conexion.conexion.prepareStatement(sql);
+        PreparedStatement statement = getConexion().prepareStatement(sql);
         statement.setString(1, valor);
         statement.setString(2, objeto.getNombre());
 
         int filas = statement.executeUpdate();
         System.out.println("Filas afectadas: " + filas);
 
-        conexion.conexion.commit();
+        getConexion().commit();
     }
 
     @Override
     public void eliminar(Persona objeto) throws SQLException {
         String sql = "DELETE FROM persona WHERE nombre = ?";
-        conexion.conexion.setAutoCommit(false);
+        getConexion().setAutoCommit(false);
 
-        PreparedStatement statement = conexion.conexion.prepareStatement(sql);
+        PreparedStatement statement = getConexion().prepareStatement(sql);
         statement.setString(1, objeto.getNombre());
 
         int filas = statement.executeUpdate();
         System.out.println("Filas adectadas: " + filas);
 
-        conexion.conexion.commit();
+        getConexion().commit();
     }
 
     public void consultarMayores(int edad) throws SQLException {
         String sql = "SELECT * FROM persona WHERE edad >= ?";
-        conexion.conexion.setAutoCommit(false);
+        getConexion().setAutoCommit(false);
 
-        PreparedStatement statement = conexion.conexion.prepareStatement(sql);
+        PreparedStatement statement = getConexion().prepareStatement(sql);
         statement.setInt(1, edad);
 
         ResultSet resultado = statement.executeQuery();

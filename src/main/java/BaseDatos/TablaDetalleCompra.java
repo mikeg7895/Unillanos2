@@ -17,10 +17,10 @@ public class TablaDetalleCompra extends Operaciones<VentaServicio> {
     public void insertar(VentaServicio objeto) throws SQLException {
         String sql = "INSERT INTO detallecompra (num_venta, nomb_venta, tipo_servicio, codigo_persona, id_servicio) " +
                 "VALUES (?, ?, ?, ?, ?)";
-        conexion.conexion.setAutoCommit(false);
+        getConexion().setAutoCommit(false);
 
         for(DetalleVentaServicio detalleVentaServicio : objeto.getDtl_venta()){
-            PreparedStatement statement = conexion.conexion.prepareStatement(sql);
+            PreparedStatement statement = getConexion().prepareStatement(sql);
             statement.setInt(1, objeto.getNum_venta());
             statement.setString(2, objeto.getNomb_venta());
             statement.setString(3, detalleVentaServicio.getTipo_servicio());
@@ -29,43 +29,43 @@ public class TablaDetalleCompra extends Operaciones<VentaServicio> {
             statement.executeUpdate();
         }
 
-        conexion.conexion.commit();
+        getConexion().commit();
     }
 
     @Override
     public void actualizar(VentaServicio objeto, String columna, String valor) throws SQLException {
         String sql = "UPDATE detallecompra SET " + columna + " = ? WHERE nomb_venta = ?";
-        conexion.conexion.setAutoCommit(false);
+        getConexion().setAutoCommit(false);
 
-        PreparedStatement statement = conexion.conexion.prepareStatement(sql);
+        PreparedStatement statement = getConexion().prepareStatement(sql);
         statement.setString(1, valor);
         statement.setString(2, objeto.getNomb_venta());
 
         int filas = statement.executeUpdate();
         System.out.println("Filas afectadas: " + filas);
 
-        conexion.conexion.commit();
+        getConexion().commit();
     }
 
     @Override
     public void eliminar(VentaServicio objeto) throws SQLException {
         String sql = "DELETE FROM detallecompra WHERE nomb_venta = ?";
-        conexion.conexion.setAutoCommit(false);
+        getConexion().setAutoCommit(false);
 
-        PreparedStatement statement = conexion.conexion.prepareStatement(sql);
+        PreparedStatement statement = getConexion().prepareStatement(sql);
         statement.setString(1, objeto.getNomb_venta());
 
         int filas = statement.executeUpdate();
         System.out.println("Filas adectadas: " + filas);
 
-        conexion.conexion.commit();
+        getConexion().commit();
     }
 
     public void generarFactura(VentaServicio objeto) throws SQLException {
         String sql = "SELECT * FROM detallecompra d JOIN servicio s ON d.id_servicio=s.id WHERE num_venta = ?";
-        conexion.conexion.setAutoCommit(false);
+        getConexion().setAutoCommit(false);
 
-        PreparedStatement statement = conexion.conexion.prepareStatement(sql);
+        PreparedStatement statement = getConexion().prepareStatement(sql);
         statement.setInt(1, objeto.getNum_venta());
 
         ResultSet resultado = statement.executeQuery();
@@ -79,6 +79,6 @@ public class TablaDetalleCompra extends Operaciones<VentaServicio> {
         }
         System.out.println("Total: " + total);
 
-        conexion.conexion.commit();
+        getConexion().commit();
     }
 }
